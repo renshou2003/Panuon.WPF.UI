@@ -9,7 +9,7 @@ using System.Windows.Threading;
 
 namespace Panuon.WPF.UI.Internal.Controls
 {
-    class PendingBoxWindow 
+    class PendingBoxWindow
         : Window
     {
         #region Fields
@@ -46,6 +46,8 @@ namespace Panuon.WPF.UI.Internal.Controls
         private Rect? _ownerRect;
 
         private bool _isClosed;
+
+        private bool _interopOwnersMask;
         #endregion
 
         #region Ctor
@@ -82,10 +84,12 @@ namespace Panuon.WPF.UI.Internal.Controls
                 _ownerRect = ownerRect;
                 Topmost = true;
             }
+            _interopOwnersMask = interopOwnersMask;
             if (owner is WindowX ownerX && interopOwnersMask)
             {
                 ownerX.Dispatcher.BeginInvoke(new Action(() =>
                 {
+                    WindowXMaskManager.Push(ownerX);
                     ownerX.SetCurrentValue(WindowX.IsMaskVisibleProperty, true);
                 }));
                 _owner = ownerX;
@@ -131,7 +135,7 @@ namespace Panuon.WPF.UI.Internal.Controls
                 {
                     _messageTextBlock.Text = _messageText;
                 }
-                if(spinner != null)
+                if (spinner != null)
                 {
                     spinner.Style = _spinnerStyle;
                     spinner.IsSpinning = true;
@@ -155,11 +159,11 @@ namespace Panuon.WPF.UI.Internal.Controls
         #region OnClosed
         protected override void OnClosed(EventArgs e)
         {
-            if(_owner != null)
+            if (_interopOwnersMask && _owner != null)
             {
                 _owner.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    if (_owner.OwnedWindows.Count == 0)
+                    if (WindowXMaskManager.Pop(_owner) == 0)
                     {
                         _owner.SetCurrentValue(WindowX.IsMaskVisibleProperty, false);
                     }

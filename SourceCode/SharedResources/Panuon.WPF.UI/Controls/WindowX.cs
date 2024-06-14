@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shell;
+using Panuon.WPF.UI.Internal.Controls;
 
 namespace Panuon.WPF.UI
 {
@@ -125,7 +126,7 @@ namespace Panuon.WPF.UI
         #region OnClosed
         protected override void OnClosed(EventArgs e)
         {
-            if (InteropOwnersMask && Owner is WindowX owner && owner.OwnedWindows.Count == 0)
+            if (InteropOwnersMask && Owner is WindowX owner && WindowXMaskManager.Pop(owner) == 0)
             {
                 owner.SetCurrentValue(WindowX.IsMaskVisibleProperty, false);
             }
@@ -590,6 +591,7 @@ namespace Panuon.WPF.UI
             {
                 if (InteropOwnersMask && Owner is WindowX owner)
                 {
+                    WindowXMaskManager.Push(owner);
                     owner.SetCurrentValue(WindowX.IsMaskVisibleProperty, true);
                 }
                 _isLoaded = true;
