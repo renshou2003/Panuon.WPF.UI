@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -430,6 +431,31 @@ namespace Panuon.WPF.UI
             DependencyProperty.Register("StepFactor", typeof(int), typeof(NumberInput), new PropertyMetadata(1));
         #endregion
 
+        #region OnlyDigit
+        /// <summary>
+        /// Get or set the inputbox only input digit. if true not alow input point.
+        /// </summary>
+        public bool OnlyDigit
+        {
+            get { return (bool)GetValue(OnlyDigitProperty); }
+            set { SetValue(OnlyDigitProperty, value); }
+        }
+
+        public static readonly DependencyProperty OnlyDigitProperty =
+            DependencyProperty.Register(nameof(OnlyDigit), typeof(bool), typeof(NumberInput), new PropertyMetadata(false, OnOnlyDigitPropertyChangedCallback));
+        public static readonly DependencyPropertyKey InputLimitPropertyKey =
+            DependencyProperty.RegisterReadOnly("InputLimit", typeof(InputLimits), typeof(NumberInput), new PropertyMetadata(InputLimits.Digit | InputLimits.Point));
+        private static void OnOnlyDigitPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var numberInput = (NumberInput)d;
+            if (numberInput == null) return;
+            if ((bool)e.NewValue)
+                numberInput.SetValue(InputLimitPropertyKey, InputLimits.Digit);
+            else
+                numberInput.SetValue(InputLimitPropertyKey, InputLimits.Digit | InputLimits.Point);
+        }
+        #endregion
+
         #endregion
 
         #region ComponentResourceKeys
@@ -459,6 +485,12 @@ namespace Panuon.WPF.UI
         public override void OnApplyTemplate()
         {
             _inputTextBox = GetTemplateChild(InputTextBoxTemplateName) as TextBox;
+            _inputTextBox.SetBinding(TextBoxHelper.InputLimitProperty, new Binding
+            {
+                Source = this,
+                Mode = BindingMode.OneWay,
+                Path = new PropertyPath(InputLimitPropertyKey.DependencyProperty)
+            });
             _inputTextBox.TextChanged += InputTextBox_TextChanged;
 
             UpdateTextFromValue();
