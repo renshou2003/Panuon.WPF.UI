@@ -8,7 +8,7 @@
 
     <ControlTemplate x:Key="{x:Static irs:TemplateKeys.RadioButtonTemplate}"
                      TargetType="RadioButton">
-        <Grid>
+        <Grid Background="Transparent">
             <Border Background="Transparent"
                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
