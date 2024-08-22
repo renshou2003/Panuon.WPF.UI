@@ -287,6 +287,21 @@ namespace Panuon.WPF.UI
             DependencyProperty.RegisterAttached("HeaderVerticalContentAlignment", typeof(VerticalAlignment), typeof(ExpanderHelper));
         #endregion
 
+        #region ExpandedHeader
+        public static object GetExpandedHeader(Expander expander)
+        {
+            return (object)expander.GetValue(ExpandedHeaderProperty);
+        }
+
+        public static void SetExpandedHeader(Expander expander, object value)
+        {
+            expander.SetValue(ExpandedHeaderProperty, value);
+        }
+
+        public static readonly DependencyProperty ExpandedHeaderProperty =
+            DependencyProperty.RegisterAttached("ExpandedHeader", typeof(object), typeof(ExpanderHelper));
+        #endregion
+
         #region ExpandedHeaderForeground
         public static Brush GetExpandedHeaderForeground(Expander expander)
         {
@@ -348,18 +363,18 @@ namespace Panuon.WPF.UI
         #endregion
 
         #region ExpandedHeaderCornerRadius
-        public static CornerRadius GetExpandedHeaderCornerRadius(Expander expander)
+        public static CornerRadius? GetExpandedHeaderCornerRadius(Expander expander)
         {
-            return (CornerRadius)expander.GetValue(ExpandedHeaderCornerRadiusProperty);
+            return (CornerRadius?)expander.GetValue(ExpandedHeaderCornerRadiusProperty);
         }
 
-        public static void SetExpandedHeaderCornerRadius(Expander expander, CornerRadius value)
+        public static void SetExpandedHeaderCornerRadius(Expander expander, CornerRadius? value)
         {
             expander.SetValue(ExpandedHeaderCornerRadiusProperty, value);
         }
 
         public static readonly DependencyProperty ExpandedHeaderCornerRadiusProperty =
-            DependencyProperty.RegisterAttached("ExpandedHeaderCornerRadius", typeof(CornerRadius), typeof(ExpanderHelper));
+            DependencyProperty.RegisterAttached("ExpandedHeaderCornerRadius", typeof(CornerRadius?), typeof(ExpanderHelper));
         #endregion
 
         #region ExpandedHeaderShadowColor

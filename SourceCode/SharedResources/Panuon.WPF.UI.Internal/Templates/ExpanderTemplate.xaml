@@ -80,7 +80,7 @@
                                                     <MultiDataTrigger.Conditions>
                                                         <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource Self}, Mode=OneWay}"
                                                                    Value="True" />
-                                                        <Condition Binding="{Binding Path=(local:ExpanderHelper.ExpandedHeaderForeground), Converter={x:Static pw:Converters.IsNonnullConverter}, RelativeSource={RelativeSource AncestorType=Expander}, Mode=OneWay}"
+                                                        <Condition Binding="{Binding Path=(local:ExpanderHelper.ExpandedHeaderCornerRadius), Converter={x:Static pw:Converters.IsNonnullConverter}, RelativeSource={RelativeSource AncestorType=Expander}, Mode=OneWay}"
                                                                    Value="True" />
                                                     </MultiDataTrigger.Conditions>
                                                     <Setter TargetName="BdrContainer"
@@ -160,7 +160,9 @@
                         <i:ContentPresenterX x:Name="CpChild"
                                              IsVertical="True"
                                              local:ExpanderHelper.RegistContentPresenter="{Binding Path=. ,RelativeSource={RelativeSource Self}}"
-                                             Margin="{TemplateBinding Padding}" />
+                                             Margin="{TemplateBinding Padding}"
+                                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
                 </Grid>
             </Border>
@@ -184,6 +186,17 @@
                         Property="Grid.Row"
                         Value="3" />
             </Trigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsExpanded, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                               Value="True" />
+                    <Condition Binding="{Binding Path=(local:ExpanderHelper.ExpandedHeader), Converter={x:Static pw:Converters.IsNonnullConverter}, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                               Value="True" />
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="CcHeader"
+                        Property="Content"
+                        Value="{Binding Path=(local:ExpanderHelper.ExpandedHeader), RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+            </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsExpanded, RelativeSource={RelativeSource Self}, Mode=OneWay}"
@@ -337,7 +350,7 @@
                            BorderThickness="{TemplateBinding BorderThickness}"
                            Foreground="{TemplateBinding Foreground}"
                            Source="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                               CornerRadius="{Binding Path=(i:VisualStateHelper.CornerRadius), RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                           CornerRadius="{Binding Path=(i:VisualStateHelper.CornerRadius), RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                            Effect="{Binding Path=(i:VisualStateHelper.Effect), RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                            VerticalContentAlignment="Stretch"
                            HorizontalContentAlignment="Stretch">
@@ -409,7 +422,9 @@
                     <i:ContentPresenterX x:Name="CpChild"
                                          IsVertical="False"
                                          local:ExpanderHelper.RegistContentPresenter="{Binding Path=. ,RelativeSource={RelativeSource Self}}"
-                                         Margin="{TemplateBinding Padding}" />
+                                         Margin="{TemplateBinding Padding}" 
+                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                 </Border>
             </Grid>
         </local:ContentControlX>
