@@ -45,7 +45,7 @@
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Border x:Name="PART_BorderContainer" Grid.ColumnSpan="3" Visibility="Hidden"/>
+                        <Border x:Name="PART_BorderContainer" Grid.ColumnSpan="3" Visibility="Collapsed"/>
                         <i:IconPresenter x:Name="IpIcon"
                                          Content="{TemplateBinding Icon}"
                                          Margin="{Binding Path=(local:IconHelper.Margin), RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
