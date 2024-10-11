@@ -123,11 +123,7 @@ namespace Panuon.WPF.UI
         }
         #endregion
 
-        #region OnClosed
-        /// <summary>
-        /// OnSourceInitialized
-        /// </summary>
-        /// <param name="e"></param>
+        #region OnSourceInitialized
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
