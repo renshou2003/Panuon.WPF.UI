@@ -124,6 +124,20 @@ namespace Panuon.WPF.UI
         #endregion
 
         #region OnClosed
+        /// <summary>
+        /// OnSourceInitialized
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            //解决设置了WindowChrome并且窗口的SizeToContent为WidthAndHeight时出现黑色区域的问题
+            if (SizeToContent == SizeToContent.WidthAndHeight && WindowChrome.GetWindowChrome(this) != null)
+                InvalidateMeasure();
+        }
+        #endregion
+
+        #region OnClosed
         protected override void OnClosed(EventArgs e)
         {
             if (InteropOwnersMask && Owner is WindowX owner && WindowXMaskManager.Pop(owner) == 0)
