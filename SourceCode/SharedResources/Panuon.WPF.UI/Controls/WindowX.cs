@@ -305,6 +305,19 @@ namespace Panuon.WPF.UI
         public bool IsClosed { get; private set; }
         #endregion
 
+        #region AutoSwitchTemplate
+        /// <summary>
+        /// 获取或设置是否自动切换模板
+        /// </summary>
+        public bool AutoSwitchTemplate
+        {
+            get { return (bool)GetValue(AutoSwitchTemplateProperty); }
+            set { SetValue(AutoSwitchTemplateProperty, value); }
+        }
+        public static readonly DependencyProperty AutoSwitchTemplateProperty =
+            DependencyProperty.Register(nameof(AutoSwitchTemplate), typeof(bool), typeof(WindowX), new PropertyMetadata(false));
+        #endregion
+
         #endregion
 
         #region Internal Properties

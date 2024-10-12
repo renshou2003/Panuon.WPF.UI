@@ -151,11 +151,11 @@
             <Trigger Property="ResizeMode"
                      Value="NoResize">
                 <Setter TargetName="BtnMinimize"
-                        Property="IsEnabled"
-                        Value="False" />
+                        Property="Visibility"
+                        Value="Collapsed" />
                 <Setter TargetName="BtnMaximize"
-                        Property="IsEnabled"
-                        Value="False" />
+                        Property="Visibility"
+                        Value="Collapsed" />
             </Trigger>
             <Trigger Property="WindowState"
                      Value="Maximized">
@@ -823,11 +823,11 @@
             <Trigger Property="ResizeMode"
                      Value="NoResize">
                 <Setter TargetName="BtnMinimize"
-                        Property="IsEnabled"
-                        Value="False" />
+                        Property="Visibility"
+                        Value="Collapsed" />
                 <Setter TargetName="BtnMaximize"
-                        Property="IsEnabled"
-                        Value="False" />
+                        Property="Visibility"
+                        Value="Collapsed" />
             </Trigger>
             <Trigger Property="WindowState"
                      Value="Maximized">
