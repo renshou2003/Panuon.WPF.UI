@@ -1,5 +1,4 @@
-﻿using Panuon.WPF.UI.Internal.Resources;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -126,5 +125,21 @@ namespace Panuon.WPF.UI.Configurations
 
         #endregion
 
+        public new object GetValue(DependencyProperty property)
+        {
+            if (!Dispatcher.CheckAccess())
+                return Dispatcher.Invoke(() => GetValue(property));
+            return base.GetValue(property);
+        }
+
+        public new void SetValue(DependencyProperty property, object value)
+        {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(() => SetValue(property, value));
+                return;
+            }
+            base.SetValue(property, value);
+        }
     }
 }
