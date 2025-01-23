@@ -201,6 +201,14 @@
                 Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
         <Setter Property="ItemsHorizontalContentAlignment"
                 Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel VirtualizingStackPanel.IsVirtualizing="True"
+                                    VirtualizingStackPanel.VirtualizationMode="Recycling" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility"
                 Value="Auto" />
         <Setter Property="Template"

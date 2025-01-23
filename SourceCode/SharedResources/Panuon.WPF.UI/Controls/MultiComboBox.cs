@@ -794,14 +794,14 @@ namespace Panuon.WPF.UI
         #region Internal Properties
 
         #region SelectionBoxItems
-        internal IEnumerable SelectionBoxItems
+        internal IEnumerable<object> SelectionBoxItems
         {
-            get { return (IEnumerable)GetValue(SelectionBoxItemsProperty); }
+            get { return (IEnumerable<object>)GetValue(SelectionBoxItemsProperty); }
             private set { SetValue(SelectionBoxItemsProperty, value); }
         }
 
         internal static readonly DependencyProperty SelectionBoxItemsProperty =
-            DependencyProperty.Register("SelectionBoxItems", typeof(IEnumerable), typeof(MultiComboBox));
+            DependencyProperty.Register("SelectionBoxItems", typeof(IEnumerable<object>), typeof(MultiComboBox));
         #endregion
 
         #region SelectionBoxItemTemplate
@@ -871,23 +871,6 @@ namespace Panuon.WPF.UI
         {
             _itemsScrollViewer.Content = null;
             _containerBorder.Child = _itemsPresenter;
-        }
-
-        protected override Size MeasureOverride(Size constraint)
-        {
-            var desiredSize = base.MeasureOverride(constraint);
-
-            if (_dropDown == null)
-            {
-                return desiredSize;
-            }
-            return _dropDown.DesiredSize;
-        }
-
-        protected override Size ArrangeOverride(Size arrangeBounds)
-        {
-            base.ArrangeOverride(arrangeBounds);
-            return arrangeBounds;
         }
         #endregion
 
@@ -997,7 +980,7 @@ namespace Panuon.WPF.UI
                     itemTemplate = contentControl.ContentTemplate;
                     itemStringFormat = contentControl.ContentStringFormat;
                 }
-                if(ItemTemplate == null && ItemTemplateSelector == null && itemStringFormat == null)
+                if (ItemTemplate == null && ItemTemplateSelector == null && itemStringFormat == null)
                 {
                     if (item is DependencyObject logicElement)
                     {
@@ -1026,7 +1009,7 @@ namespace Panuon.WPF.UI
                             rect.Width = clonedElement.RenderSize.Width;
                             rect.Height = clonedElement.RenderSize.Height;
 
-                           
+
                             clonedElement.LayoutUpdated += delegate
                             {
                                 rect.Width = clonedElement.RenderSize.Width;
