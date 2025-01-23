@@ -10,7 +10,9 @@
                      TargetType="local:Pagination">
         <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}">
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Effect="{Binding Path=(i:VisualStateHelper.Effect), RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -21,7 +23,8 @@
                               Visibility="{TemplateBinding PageTurnButtonVisibility}"
                               Command="{x:Static local:Pagination.PageUpCommand}"
                               Style="{TemplateBinding PageTurnButtonStyle}" />
-                <ItemsControl Grid.Column="1"
+                <ItemsControl x:Name="PART_ItemsControl"
+                              Grid.Column="1"
                               ItemsSource="{TemplateBinding PageList}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -31,7 +34,6 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <local:PaginationItem x:Name="PgniPage"
-                                                  GroupName="GROUP_PAGINATION"
                                                   Style="{Binding ItemContainerStyle, RelativeSource={RelativeSource AncestorType=local:Pagination}, Mode=OneWay}"
                                                   IsOmitting="{Binding ., Converter={x:Static pw:Converters.IsNullConverter}, Mode=OneWay}"
                                                   OmittingTextBlockStyle="{Binding OmittingTextBlockStyle, RelativeSource={RelativeSource AncestorType=local:Pagination}, Mode=OneWay}"
@@ -67,7 +69,9 @@
                      TargetType="local:Pagination">
         <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}">
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Effect="{Binding Path=(i:VisualStateHelper.Effect), RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -78,7 +82,8 @@
                               Visibility="{TemplateBinding PageTurnButtonVisibility}"
                               Command="{x:Static local:Pagination.PageUpCommand}"
                               Style="{TemplateBinding PageTurnButtonStyle}" />
-                <ItemsControl Grid.Row="1"
+                <ItemsControl x:Name="PART_ItemsControl"
+                              Grid.Row="1"
                               ItemsSource="{TemplateBinding PageList}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -88,7 +93,6 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <local:PaginationItem x:Name="PgniPage"
-                                                  GroupName="GROUP_PAGINATION"
                                                   Style="{Binding ItemContainerStyle, RelativeSource={RelativeSource AncestorType=local:Pagination}, Mode=OneWay}"
                                                   IsOmitting="{Binding ., Converter={x:Static pw:Converters.IsNullConverter}, Mode=OneWay}"
                                                   OmittingTextBlockStyle="{Binding OmittingTextBlockStyle, RelativeSource={RelativeSource AncestorType=local:Pagination}, Mode=OneWay}"

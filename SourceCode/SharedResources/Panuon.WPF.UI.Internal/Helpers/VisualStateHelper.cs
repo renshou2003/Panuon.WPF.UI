@@ -1178,7 +1178,7 @@ namespace Panuon.WPF.UI.Internal
                 AnimationUtil.BeginAnimationStoryboard(element, propertyBrushes);
             }
             if (!GetFocusedShadowColorLock((DependencyObject)sender)
-                    && element.GetValue(FocusedShadowColorProperty) is Color focusedShadowColor)
+                && element.GetValue(FocusedShadowColorProperty) is Color focusedShadowColor)
             {
                 var effect = GetEffect(element);
                 if (effect == null)
@@ -1200,16 +1200,6 @@ namespace Panuon.WPF.UI.Internal
                     AnimationUtil.BeginDoubleAnimation(effect, DropShadowEffect.OpacityProperty, null, ShadowHelper.GetOpacity(element), GlobalSettings.Setting.AnimationDuration);
                     AnimationUtil.BeginColorAnimation(effect, DropShadowEffect.ColorProperty, null, focusedShadowColor, GlobalSettings.Setting.AnimationDuration);
                 }
-            }
-            else
-            {
-                var effect = GetEffect(element);
-                if (effect == null)
-                {
-                    return;
-                }
-
-                AnimationUtil.BeginDoubleAnimation(effect, DropShadowEffect.OpacityProperty, null, 0, GlobalSettings.Setting.AnimationDuration);
             }
         }
 
@@ -1421,14 +1411,6 @@ namespace Panuon.WPF.UI.Internal
                     AnimationUtil.BeginColorAnimation(effect, DropShadowEffect.ColorProperty, null, checkedShadowColor, GlobalSettings.Setting.AnimationDuration);
                 }
             }
-            else
-            {
-                var effect = GetEffect(element);
-                if (effect != null)
-                {
-                    AnimationUtil.BeginDoubleAnimation(effect, DropShadowEffect.OpacityProperty, null, 0, GlobalSettings.Setting.AnimationDuration);
-                }
-            }
 
             var propertyBrushes = new Dictionary<DependencyProperty, object>();
             if (element.GetValue(CheckedCornerRadiusProperty) is CornerRadius checkedCornerRadius)
@@ -1477,14 +1459,14 @@ namespace Panuon.WPF.UI.Internal
                 {
                     return;
                 }
-                var shadowColor = element.GetValue(ShadowColorProperty);
-                if (shadowColor == null)
+
+                if (element.GetValue(ShadowColorProperty) is Color shadowColor)
                 {
-                    AnimationUtil.BeginDoubleAnimation(effect, DropShadowEffect.OpacityProperty, null, 0, GlobalSettings.Setting.AnimationDuration);
+                    AnimationUtil.BeginColorAnimation(effect, DropShadowEffect.ColorProperty, null, (Color)shadowColor, GlobalSettings.Setting.AnimationDuration);
                 }
                 else
                 {
-                    AnimationUtil.BeginColorAnimation(effect, DropShadowEffect.ColorProperty, null, (Color)shadowColor, GlobalSettings.Setting.AnimationDuration);
+                    AnimationUtil.BeginDoubleAnimation(effect, DropShadowEffect.OpacityProperty, null, 0, GlobalSettings.Setting.AnimationDuration);
                 }
             }
 
@@ -1492,6 +1474,11 @@ namespace Panuon.WPF.UI.Internal
             if (element.GetValue(CheckedCornerRadiusProperty) != null)
             {
                 properties.Add(CornerRadiusProperty);
+            }
+
+            if (properties.Any())
+            {
+                AnimationUtil.BeginBrushAnimationStoryboard(element, properties);
             }
         }
 

@@ -439,6 +439,21 @@ namespace Panuon.WPF.UI
             DependencyProperty.Register("SelectionBoxItemLabelStyle", typeof(Style), typeof(MultiComboBox));
         #endregion
 
+        #region Selection Box
+
+        #region SelectionBoxItemLabelBackground
+        public Brush SelectionBoxItemLabelBackground
+        {
+            get { return (Brush)GetValue(SelectionBoxItemLabelBackgroundProperty); }
+            set { SetValue(SelectionBoxItemLabelBackgroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty SelectionBoxItemLabelBackgroundProperty =
+            DependencyProperty.Register("SelectionBoxItemLabelBackground", typeof(Brush), typeof(MultiComboBox));
+        #endregion
+
+        #endregion
+
         #region Items Properties
 
         #region ItemsWidth
@@ -516,17 +531,6 @@ namespace Panuon.WPF.UI
 
         public static readonly DependencyProperty ItemsCornerRadiusProperty =
             DependencyProperty.Register("ItemsCornerRadius", typeof(CornerRadius), typeof(MultiComboBox));
-        #endregion
-
-        #region ItemsShadowColor
-        public Color? ItemsShadowColor
-        {
-            get { return (Color?)GetValue(ItemsShadowColorProperty); }
-            set { SetValue(ItemsShadowColorProperty, value); }
-        }
-
-        public static readonly DependencyProperty ItemsShadowColorProperty =
-            DependencyProperty.Register("ItemsShadowColor", typeof(Color?), typeof(MultiComboBox));
         #endregion
 
         #region ItemsMargin
@@ -648,17 +652,6 @@ namespace Panuon.WPF.UI
 
         public static readonly DependencyProperty ItemsHoverCornerRadiusProperty =
             DependencyProperty.Register("ItemsHoverCornerRadius", typeof(CornerRadius?), typeof(MultiComboBox));
-        #endregion
-
-        #region ItemsHoverShadowColor
-        public Color? ItemsHoverShadowColor
-        {
-            get { return (Color?)GetValue(ItemsHoverShadowColorProperty); }
-            set { SetValue(ItemsHoverShadowColorProperty, value); }
-        }
-
-        public static readonly DependencyProperty ItemsHoverShadowColorProperty =
-            DependencyProperty.Register("ItemsHoverShadowColor", typeof(Color?), typeof(MultiComboBox));
         #endregion
 
         #region ItemsSelectedBackground
@@ -801,14 +794,14 @@ namespace Panuon.WPF.UI
         #region Internal Properties
 
         #region SelectionBoxItems
-        internal IEnumerable<object> SelectionBoxItems
+        internal IEnumerable SelectionBoxItems
         {
-            get { return (IEnumerable<object>)GetValue(SelectionBoxItemsProperty); }
+            get { return (IEnumerable)GetValue(SelectionBoxItemsProperty); }
             private set { SetValue(SelectionBoxItemsProperty, value); }
         }
 
         internal static readonly DependencyProperty SelectionBoxItemsProperty =
-            DependencyProperty.Register("SelectionBoxItems", typeof(IEnumerable<object>), typeof(MultiComboBox));
+            DependencyProperty.Register("SelectionBoxItems", typeof(IEnumerable), typeof(MultiComboBox));
         #endregion
 
         #region SelectionBoxItemTemplate
@@ -872,13 +865,29 @@ namespace Panuon.WPF.UI
         {
             _containerBorder.Child = null;
             _itemsScrollViewer.Content = _itemsPresenter;
-            
         }
 
         private void DropDown_Closed(object sender, EventArgs e)
         {
             _itemsScrollViewer.Content = null;
             _containerBorder.Child = _itemsPresenter;
+        }
+
+        protected override Size MeasureOverride(Size constraint)
+        {
+            var desiredSize = base.MeasureOverride(constraint);
+
+            if (_dropDown == null)
+            {
+                return desiredSize;
+            }
+            return _dropDown.DesiredSize;
+        }
+
+        protected override Size ArrangeOverride(Size arrangeBounds)
+        {
+            base.ArrangeOverride(arrangeBounds);
+            return arrangeBounds;
         }
         #endregion
 

@@ -1,10 +1,8 @@
-﻿using Panuon.WPF;
-using Panuon.WPF.UI.Internal;
+﻿using Panuon.WPF.UI.Internal;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -15,6 +13,8 @@ namespace Panuon.WPF.UI
     {
         #region Fields
         private object _pageListLock = new object();
+
+        private ItemsControl _itemsControl;
         #endregion
 
         #region Ctor
@@ -31,7 +31,7 @@ namespace Panuon.WPF.UI
 
         public Pagination()
         {
-            AddHandler(PaginationItem.ClickEvent, new RoutedEventHandler(OnPaginationItemClick));
+            AddHandler(PaginationItem.SelectedEvent, new RoutedEventHandler(OnPaginationItemSelected));
         }
         #endregion
 
@@ -161,6 +161,28 @@ namespace Panuon.WPF.UI
 
         public static readonly DependencyProperty OmittingTextBlockStyleProperty =
             DependencyProperty.RegisterAttached("OmittingTextBlockStyle", typeof(Style), typeof(Pagination));
+        #endregion
+
+        #region CornerRadius
+        public CornerRadius CornerRadius
+        {
+            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+            set { SetValue(CornerRadiusProperty, value); }
+        }
+
+        public static readonly DependencyProperty CornerRadiusProperty =
+            DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(Pagination));
+        #endregion
+
+        #region ShadowColor
+        public Color? ShadowColor
+        {
+            get { return (Color?)GetValue(ShadowColorProperty); }
+            set { SetValue(ShadowColorProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShadowColorProperty =
+            VisualStateHelper.ShadowColorProperty.AddOwner(typeof(Pagination));
         #endregion
 
         #region ItemsWidth
@@ -416,6 +438,13 @@ namespace Panuon.WPF.UI
             OnEffectivePageValueChanged();
             OnCurrentPageChanged(CurrentPage, 1);
         }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            _itemsControl = GetTemplateChild("PART_ItemsControl") as ItemsControl;
+        }
         #endregion
 
         #region Internal Properties
@@ -434,7 +463,7 @@ namespace Panuon.WPF.UI
         #endregion
 
         #region Event Handlers
-        private void OnPaginationItemClick(object sender, RoutedEventArgs e)
+        private void OnPaginationItemSelected(object sender, RoutedEventArgs e)
         {
             if(e.OriginalSource is PaginationItem paginationItem)
             {

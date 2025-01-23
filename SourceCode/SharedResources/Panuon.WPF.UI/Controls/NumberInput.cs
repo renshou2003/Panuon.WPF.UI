@@ -492,6 +492,7 @@ namespace Panuon.WPF.UI
                 Path = new PropertyPath(InputLimitPropertyKey.DependencyProperty)
             });
             _inputTextBox.TextChanged += InputTextBox_TextChanged;
+            _inputTextBox.LostFocus += InputTextBox_LostFocus;
 
             UpdateTextFromValue();
         }
@@ -512,14 +513,6 @@ namespace Panuon.WPF.UI
             }
             base.OnGotFocus(e);
         }
-
-        protected override void OnLostFocus(RoutedEventArgs e)
-        {
-            CoerceValue(ValueProperty);
-            UpdateTextFromValue();
-
-            base.OnLostFocus(e);
-        }
         #endregion
 
         #region Event Handlers
@@ -528,21 +521,7 @@ namespace Panuon.WPF.UI
             var numberInput = (NumberInput)d;
             if (baseValue is double value)
             {
-                if (value < numberInput.Minimum)
-                {
-                    return numberInput.Minimum;
-                }
-                if (value > numberInput.Maximum)
-                {
-                    return numberInput.Maximum;
-                }
-                if (numberInput.IsSnapToIntervalEnabled)
-                { 
-                    var interval = (decimal)numberInput.Interval;
-                    var newValue = (double)(((decimal)Math.Ceiling((decimal)value / interval)) * (decimal)interval);
-                    return newValue;
-                }
-                return value;
+                return numberInput.CheckValue(value);
             }
             return baseValue;
         }
@@ -557,6 +536,12 @@ namespace Panuon.WPF.UI
         {
             var numberInput = (NumberInput)d;
             numberInput.CoerceValue(ValueProperty);
+        }
+
+        private void InputTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            CoerceValue(ValueProperty);
+            UpdateTextFromValue();
         }
 
         private void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -610,7 +595,8 @@ namespace Panuon.WPF.UI
 
         private void UpdateTextFromValue()
         {
-            if (_inputTextBox == null)
+            if (_isInternalSet 
+                || _inputTextBox == null)
             {
                 return;
             }
@@ -650,12 +636,8 @@ namespace Panuon.WPF.UI
             }
             else if (decimal.TryParse(_inputTextBox.Text, out decimal decimalValue))
             {
-                var doubleValue = (double)decimalValue;
-                SetCurrentValue(ValueProperty, doubleValue);
-                if (Value != doubleValue)
-                {
-                    UpdateTextFromValue();
-                }
+                var resultValue = CheckValue((double)decimalValue);
+                SetCurrentValue(ValueProperty, resultValue);
             }
             else if (double.TryParse(_inputTextBox.Text, out double doubleValue))
             {
@@ -701,6 +683,25 @@ namespace Panuon.WPF.UI
             return index != -1
                 ? text.Length - index - 1
                 : 0;
+        }
+
+        private double CheckValue(double value)
+        {
+            if (value < Minimum)
+            {
+                return Minimum;
+            }
+            if (value > Maximum)
+            {
+                return Maximum;
+            }
+            if (IsSnapToIntervalEnabled)
+            {
+                var interval = (decimal)Interval;
+                var newValue = (double)((Math.Ceiling((decimal)value / interval)) * interval);
+                return newValue;
+            }
+            return value;
         }
         #endregion
     }

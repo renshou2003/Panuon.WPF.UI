@@ -164,8 +164,6 @@
                 Value="True" />
         <Setter Property="i:VisualStateHelper.IsHover"
                 Value="{Binding IsMouseOver, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
-        <Setter Property="i:VisualStateHelper.IsFocused"
-                Value="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
         <Setter Property="local:IconHelper.FontFamily"
                 Value="{Binding IconFontFamily, Source={x:Static local:GlobalSettings.Setting}}" />
         <Setter Property="local:IconHelper.FontSize"
@@ -190,8 +188,8 @@
                 Value="{Binding Path=(i:VisualStateHelper.BorderBrush), RelativeSource={RelativeSource Self}, Mode=OneWay}" />
         <Setter Property="local:DropDownHelper.BorderThickness"
                 Value="{Binding BorderThickness, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
-        <Setter Property="local:DropDownHelper.MinWidth"
-                Value="250" />
+        <Setter Property="local:DropDownHelper.Width"
+                Value="NaN" />
         <Setter Property="local:DropDownHelper.Height"
                 Value="250" />
         <Setter Property="local:DropDownHelper.Placement"
@@ -236,9 +234,62 @@
                 Value="Transparent" />
         <Setter Property="ItemsBorderThickness"
                 Value="0" />
-        <Setter Property="Template"
-                Value="{StaticResource {x:Static irs:TemplateKeys.DateTimePickerTemplate}}" />
         <Style.Triggers>
+            <Trigger Property="Mode"
+                     Value="Date">
+                <Setter Property="Template"
+                        Value="{StaticResource {x:Static irs:TemplateKeys.DateTimePickerDateTemplate}}" />
+            </Trigger>
+            <Trigger Property="Mode"
+                     Value="Year">
+                <Setter Property="Template"
+                        Value="{StaticResource {x:Static irs:TemplateKeys.DateTimePickerDateTemplate}}" />
+            </Trigger>
+            <Trigger Property="Mode"
+                     Value="Month">
+                <Setter Property="Template"
+                        Value="{StaticResource {x:Static irs:TemplateKeys.DateTimePickerDateTemplate}}" />
+            </Trigger>
+            <Trigger Property="Mode"
+                     Value="Time">
+                <Setter Property="Template"
+                        Value="{StaticResource {x:Static irs:TemplateKeys.DateTimePickerTimeTemplate}}" />
+            </Trigger>
+            <Trigger Property="Mode"
+                     Value="Hour">
+                <Setter Property="Template"
+                        Value="{StaticResource {x:Static irs:TemplateKeys.DateTimePickerTimeTemplate}}" />
+            </Trigger>
+            <Trigger Property="Mode"
+                     Value="Minute">
+                <Setter Property="Template"
+                        Value="{StaticResource {x:Static irs:TemplateKeys.DateTimePickerTimeTemplate}}" />
+            </Trigger>
+            <Trigger Property="Mode"
+                     Value="DateTime">
+                <Setter Property="Template"
+                        Value="{StaticResource {x:Static irs:TemplateKeys.DateTimePickerDateTimeTemplate}}" />
+            </Trigger>
+            <Trigger Property="Mode"
+                     Value="DateHour">
+                <Setter Property="Template"
+                        Value="{StaticResource {x:Static irs:TemplateKeys.DateTimePickerDateTimeTemplate}}" />
+            </Trigger>
+            <Trigger Property="Mode"
+                     Value="DateMinute">
+                <Setter Property="Template"
+                        Value="{StaticResource {x:Static irs:TemplateKeys.DateTimePickerDateTimeTemplate}}" />
+            </Trigger>
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="i:VisualStateHelper.IsFocused"
+                        Value="True" />
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin"
+                     Value="True">
+                <Setter Property="i:VisualStateHelper.IsFocused"
+                        Value="True" />
+            </Trigger>
             <Trigger Property="IsEnabled"
                      Value="False">
                 <Setter Property="Opacity"

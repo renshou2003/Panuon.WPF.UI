@@ -12,7 +12,7 @@
             <Ellipse Fill="{TemplateBinding Background}"
                      Stroke="{TemplateBinding BorderBrush}"
                      StrokeThickness="{TemplateBinding BorderThickness}" />
-            <Path Stroke="{TemplateBinding Foreground}"
+            <Path Stroke="{TemplateBinding FilledBorderBrush}"
                   StrokeThickness="{TemplateBinding BorderThickness}"
                   RenderTransformOrigin="0.5,0.5"
                   StrokeStartLineCap="Round"
@@ -56,7 +56,8 @@
                     </MultiBinding>
                 </Path.Data>
             </Path>
-            <TextBlock Foreground="{TemplateBinding Foreground}"
+            <TextBlock Margin="{TemplateBinding Padding}"
+                       Foreground="{TemplateBinding Foreground}"
                        Visibility="{Binding IsPercentVisible, Converter={x:Static pw:Converters.FalseToCollapseConverter}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                        Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                        VerticalAlignment="Center"

@@ -62,7 +62,7 @@ namespace Panuon.WPF.UI.Internal.Utils
         #endregion
 
         #region BeginBrushAnimationStoryboard
-        public static void BeginBrushAnimationStoryboard(DependencyObject obj, 
+        public static void BeginBrushAnimationStoryboard(FrameworkElement element, 
             Dictionary<DependencyProperty, Brush> propertyValues, 
             TimeSpan? duration = null)
         {
@@ -78,14 +78,14 @@ namespace Panuon.WPF.UI.Internal.Utils
                     To = propertyValue.Value,
                     Duration = duration ?? GlobalSettings.Setting.AnimationDuration,
                 };
-                Storyboard.SetTarget(anima, obj);
+                Storyboard.SetTarget(anima, element);
                 Storyboard.SetTargetProperty(anima, new PropertyPath(propertyValue.Key));
                 storyboard.Children.Add(anima);
             }
             storyboard.Begin();
         }
 
-        public static void BeginBrushAnimationStoryboard(DependencyObject obj,
+        public static void BeginBrushAnimationStoryboard(FrameworkElement element,
             Dictionary<DependencyProperty, object> propertyValues,
             TimeSpan? duration = null)
         {
@@ -122,14 +122,14 @@ namespace Panuon.WPF.UI.Internal.Utils
                         Duration = duration ?? GlobalSettings.Setting.AnimationDuration,
                     };
                 }
-                Storyboard.SetTarget(anima, obj);
+                Storyboard.SetTarget(anima, element);
                 Storyboard.SetTargetProperty(anima, new PropertyPath(propertyValue.Key));
                 storyboard.Children.Add(anima);
             }
             storyboard.Begin();
         }
 
-        public static void BeginBrushAnimationStoryboard(DependencyObject obj,
+        public static void BeginBrushAnimationStoryboard(FrameworkElement element,
             List<DependencyProperty> properties,
             TimeSpan? duration = null)
         {
@@ -159,7 +159,7 @@ namespace Panuon.WPF.UI.Internal.Utils
                         Duration = duration ?? GlobalSettings.Setting.AnimationDuration,
                     };
                 }
-                Storyboard.SetTarget(anima, obj);
+                Storyboard.SetTarget(anima, element);
                     Storyboard.SetTargetProperty(anima, new PropertyPath(dp));
                     storyboard.Children.Add(anima);
             }
